@@ -1,7 +1,9 @@
 <?php
 
 use App\Events\UserEvent;
+use App\Jobs\SendRegisterMailJob;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +28,7 @@ Route::get('/', function () {
 
 
 // https://bestof.test/axiosGet'
-Route::get('axiosGet',function(){
+Route::get('axiosGet', function () {
 
     $user = User::all();
 
@@ -43,20 +45,20 @@ Route::get('axiosGet',function(){
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::post('/ping',function(Request $request){
-        $user = User::find($request->id);
-        $message = $request->message;
+Route::post('/ping', function (Request $request) {
+    $user = User::find($request->id);
+    $message = $request->message;
 
-        event(new UserEvent($user,$message));
+    event(new UserEvent($user, $message));
 });
 
 
 
-Route::get('/ping2',function(){
+Route::get('/ping2', function () {
 
     $user = User::find(55);
-    $message  = ["blablalb"=>"lablalbab"];
-    event(new UserEvent($user,$message));
+    $message  = ["blablalb" => "lablalbab"];
+    event(new UserEvent($user, $message));
 });
 
 Auth::routes();
@@ -79,4 +81,15 @@ Route::get('login/linkedin/callback', 'Auth\LoginController@handleLinkedInProvid
 // ENDD
 
 // MAIL SEND
-Route::get('/send','HomeController@send');
+// Route::get('/send','HomeController@send');
+
+
+
+
+
+// Route::get('/sendwithjob',function(){
+
+//     $data = ['user_name'=>'Zoka','user_email'=>'milancomi96@gmail.com'];
+//     $job = (new SendRegisterMailJob($data))->delay(Carbon::now()->addSeconds(5));
+//     dispatch($job);
+// });

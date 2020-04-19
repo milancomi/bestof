@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendRegisterMailJob;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +22,7 @@ class RegisterController extends Controller
     | validation and creation. By default this controller uses a trait to
     | provide this functionality without requiring any additional code.
     |
-    */
+     */
 
     use RegistersUsers;
 
@@ -64,6 +66,14 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
+        $mail_info = [
+            'user_name' => $data['name'],
+            'user_email' => $data['email'],
+        ];
+
+        $job = (new SendRegisterMailJob($mail_info))->delay(Carbon::now()->addSeconds(5));
+        dispatch($job);
+
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
