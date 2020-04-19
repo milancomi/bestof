@@ -60,4 +60,23 @@ Route::get('/ping2',function(){
 });
 
 Auth::routes();
+////// ENDDD
+
+
+// LOGIN WITH SOCIALITE , FACEBOOK, GOOGLE, LINKEDIN
+
+
+Route::get('login/facebook', 'Auth\LoginController@redirectToFacebookProvider')->name('facebook-login');
+Route::get('login/facebook/callback', 'Auth\LoginController@handleFacebookProviderCallback');
+
+Route::get('login/google', 'Auth\LoginController@redirectToGoogleProvider')->name('google-login');
+Route::get('login/google/callback', 'Auth\LoginController@handleGoogleProviderCallback');
+
+
+Route::get('login/linkedin', 'Auth\LoginController@redirectToLinkedInProvider')->name('linkedin-login');
+Route::get('login/linkedin/callback', 'Auth\LoginController@handleLinkedInProviderCallback');
+
+// ENDD
+
+
 
