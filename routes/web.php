@@ -78,5 +78,5 @@ Route::get('login/linkedin/callback', 'Auth\LoginController@handleLinkedInProvid
 
 // ENDD
 
-
-
+// MAIL SEND
+Route::get('/send','HomeController@send');

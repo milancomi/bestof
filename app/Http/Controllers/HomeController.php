@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RegistrationMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class HomeController extends Controller
 {
@@ -25,4 +27,18 @@ class HomeController extends Controller
     {
         return view('home');
     }
+
+
+    public function send(Request $request)
+    {
+
+    $data = [
+        'name'    =>$request->name,
+        'message' => $request->message,
+
+    ];
+    $gmail =  Mail::to('milancomi96@gmail.com')->send(new RegistrationMail($data));
+
+}
+
 }
